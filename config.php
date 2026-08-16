@@ -55,14 +55,35 @@ function env(string $key, mixed $default = null): mixed {
     return $val;
 }
 
-// 2. Constants
-define('APP_NAME', env('APP_NAME', 'BharatAI Business OS'));
-define('APP_ENV', env('APP_ENV', 'development'));
-define('APP_DEBUG', env('APP_DEBUG', true));
-define('APP_URL', rtrim(env('APP_URL', 'http://localhost:3000'), '/'));
-define('APP_KEY', env('APP_KEY', 'bharatai_default_secret_key_change_in_prod'));
-define('STORAGE_PATH', BHARAT_ROOT . '/storage');
-define('UPLOADS_PATH', BHARAT_ROOT . '/public/uploads');
+// ==============================================================================
+// 1. DIRECT DATABASE CONFIGURATION (Enter your cPanel / MySQL Details Here)
+// ==============================================================================
+// You can enter your database credentials directly here OR use a .env file.
+define('DB_CONNECTION', env('DB_CONNECTION', 'mysql'));      // 'mysql' for cPanel/Production, 'sqlite' for local
+define('DB_HOST',       env('DB_HOST', 'localhost'));        // Usually 'localhost' or '127.0.0.1' in cPanel
+define('DB_PORT',       (int)env('DB_PORT', 3306));          // Default MySQL port is 3306
+define('DB_NAME',       env('DB_NAME', 'cpaneluser_bharataidb')); // Your MySQL Database Name
+define('DB_USER',       env('DB_USER', 'cpaneluser_dbuser'));     // Your MySQL Database Username
+define('DB_PASSWORD',   env('DB_PASSWORD', 'your_mysql_password')); // Your MySQL Database Password
+
+// ==============================================================================
+// 2. AI PROVIDER CONFIGURATION (Google Gemini / OpenAI / Anthropic)
+// ==============================================================================
+define('GEMINI_API_KEY',        env('GEMINI_API_KEY', '')); // Paste your Google Gemini API Key here
+define('GEMINI_DEFAULT_MODEL',  env('GEMINI_DEFAULT_MODEL', 'gemini-2.5-flash'));
+define('OPENAI_API_KEY',        env('OPENAI_API_KEY', ''));
+define('ANTHROPIC_API_KEY',     env('ANTHROPIC_API_KEY', ''));
+
+// ==============================================================================
+// 3. APPLICATION SETTINGS
+// ==============================================================================
+define('APP_NAME',      env('APP_NAME', 'BharatAI Business OS'));
+define('APP_ENV',       env('APP_ENV', 'development'));
+define('APP_DEBUG',     (bool)env('APP_DEBUG', true));
+define('APP_URL',       rtrim(env('APP_URL', 'http://localhost:3000'), '/'));
+define('APP_KEY',       env('APP_KEY', 'bharatai_default_secret_key_change_in_prod'));
+define('STORAGE_PATH',  BHARAT_ROOT . '/storage');
+define('UPLOADS_PATH',  BHARAT_ROOT . '/public/uploads');
 
 // 3. Error Handling
 if (APP_DEBUG) {

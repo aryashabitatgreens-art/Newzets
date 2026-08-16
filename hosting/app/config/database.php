@@ -11,16 +11,15 @@ class Database {
     private PDO $pdo;
 
     private function __construct() {
-        $driver = env('DB_CONNECTION', 'sqlite');
+        $driver = defined('DB_CONNECTION') ? DB_CONNECTION : env('DB_CONNECTION', 'mysql');
+        $host   = defined('DB_HOST') ? DB_HOST : env('DB_HOST', 'localhost');
+        $port   = defined('DB_PORT') ? DB_PORT : (int)env('DB_PORT', 3306);
+        $dbName = defined('DB_NAME') ? DB_NAME : env('DB_NAME', '');
+        $user   = defined('DB_USER') ? DB_USER : env('DB_USER', 'root');
+        $pass   = defined('DB_PASSWORD') ? DB_PASSWORD : env('DB_PASSWORD', '');
 
-        if ($driver === 'mysql' && env('DB_HOST') && env('DB_NAME')) {
-            $host = env('DB_HOST', '127.0.0.1');
-            $port = env('DB_PORT', 3306);
-            $dbName = env('DB_NAME', 'bharatai_db');
-            $user = env('DB_USER', 'root');
-            $pass = env('DB_PASSWORD', '');
+        if ($driver === 'mysql' && !empty($host) && !empty($dbName)) {
             $charset = 'utf8mb4';
-
             $dsn = "mysql:host={$host};port={$port};dbname={$dbName};charset={$charset}";
             $options = [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -32,8 +31,8 @@ class Database {
             try {
                 $this->pdo = new PDO($dsn, $user, $pass, $options);
             } catch (PDOException $e) {
-                // If MySQL connection fails, fall back to SQLite if in dev
-                if (APP_DEBUG) {
+                // If MySQL connection fails, fall back to SQLite if in debug mode
+                if (defined('APP_DEBUG') && APP_DEBUG) {
                     $this->initSqlite();
                 } else {
                     throw new RuntimeException("Database Connection Error: " . $e->getMessage());
