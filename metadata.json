@@ -1,0 +1,6 @@
+{
+  "name": "BharatAI Business OS",
+  "description": "AI-powered business automation platform with CRM, RAG Knowledge Base, Multi-tenant Architecture, and Autonomous Workflows in Natural Tones theme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-canvas: #FDFBF7;
+    --color-canvas-subtle: #F7F4EE;
+    --color-surface: #FFFFFF;
+    --color-surface-hover: #F9F7F2;
+    --color-surface-border: #E8E2D9;
+    --color-surface-border-strong: #D5CDC0;
+    
+    --color-sage: #7C8363;
+    --color-sage-hover: #6B7154;
+    --color-sage-active: #5D6348;
+    --color-sage-light: #F2F4EC;
+    --color-sage-border: #D5DAC7;
+    
+    --color-sand: #C9A66B;
+    --color-sand-hover: #B59357;
+    --color-sand-light: #FAF5EC;
+    --color-sand-border: #EADBCE;
+
+    --color-charcoal: #2D2D26;
+    --color-charcoal-muted: #57574C;
+    --color-earth-muted: #8A8A7C;
+    --color-earth-light: #B5B5A7;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #FDFBF7;
+    color: #2D2D26;
+  }
+
+  h1, h2, h3, .font-serif-accent {
+    font-family: 'Newsreader', serif;
+  }
+}
+
+/* Custom scrollbars for clean natural aesthetics */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F2EDE4;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1C7B7;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7C8363;
+}

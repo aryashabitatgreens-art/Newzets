@@ -1,0 +1,47 @@
+# ==============================================================================
+# BharatAI Business OS - Apache / cPanel .htaccess Configuration
+# ==============================================================================
+
+Options -Indexes
+Options +FollowSymLinks
+
+# Prevent direct access to sensitive files
+<FilesMatch "^\.env|\.sql|\.git|\.sqlite|composer\.(json|lock)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Enable URL Rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Force HTTPS (optional in production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Block direct access to storage & logs
+    RewriteRule ^storage/.*$ - [F,L]
+    RewriteRule ^app/.*$ - [F,L]
+    RewriteRule ^database/.*$ - [F,L]
+
+    # Direct access to actual files or directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Route API requests to PHP endpoints if not ending with .php
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+
+    # Default entry point
+    RewriteRule ^ index.php [L]
+</IfModule>

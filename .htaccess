@@ -1,0 +1,30 @@
+# BharatAI Business OS - Apache Configuration
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Security: Block sensitive files and directories
+    RewriteRule ^(\.env|\.git|storage/logs|app/config|database/.*\.sql) - [F,L,NC]
+
+    # Serve existing files and directories directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Route API requests to PHP scripts if matched directly
+    RewriteRule ^api/(.*)$ api/$1.php [L,QSA]
+
+    # Default fallback to index.html or index.php
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent directory browsing
+Options -Indexes
